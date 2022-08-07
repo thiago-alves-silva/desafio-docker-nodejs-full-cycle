@@ -1,0 +1,12 @@
+node:
+    build:
+      context: ./node-express
+      dockerfile: dockerfile
+    image: node-express
+    container_name: node
+    volumes:
+      - type: bind
+        source: ../teste-node
+        target: /app
+        volume:
+          nocopy: true

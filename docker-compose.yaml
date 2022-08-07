@@ -1,0 +1,42 @@
+services:
+  db:
+    image: mysql
+    container_name: db
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=example
+    networks:
+      - nodenet
+    restart: always
+
+  node:
+    build:
+      context: ./node-express
+    image: node-express
+    container_name: node
+    volumes:
+      - ./node-express:/app
+    networks:
+      - nodenet
+    restart: always
+    depends_on:
+      - db
+
+  nginx:
+    build:
+      context: ./nginx-node
+    image: nginx-node
+    container_name: nginx
+    ports:
+      - 8080:80
+    networks:
+      - nodenet
+    depends_on:
+      - node
+
+networks:
+  nodenet:
+    driver: bridge

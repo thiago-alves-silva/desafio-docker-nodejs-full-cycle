@@ -1,0 +1,6 @@
+FROM node:lts-slim
+WORKDIR /app
+COPY . .
+RUN rm dockerfile
+EXPOSE 3000
+ENTRYPOINT [ "node", "src/app.js" ]
