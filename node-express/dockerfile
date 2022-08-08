@@ -1,6 +1,7 @@
 FROM node:lts-slim
 WORKDIR /app
-COPY . .
-RUN rm dockerfile
+COPY package.json .
+COPY src ./src
 EXPOSE 3000
+RUN npm install
 ENTRYPOINT [ "node", "src/app.js" ]
